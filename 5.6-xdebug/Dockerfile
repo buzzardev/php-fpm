@@ -28,26 +28,13 @@ RUN apt-get update && \
 
 # Install xdebug
 RUN yes | pecl install xdebug \
-    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
-
-# Install phpunit, phpcs, phpdoc and composer
-#RUN apt-get install -y git \
-#    && curl -o /usr/bin/phpunit https://phar.phpunit.de/phpunit.phar \
-#    && curl -o /usr/bin/phpcs https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar \
-#    && curl -o /usr/bin/phpdoc http://phpdoc.org/phpDocumentor.phar \
-#    && curl -o /usr/bin/composer https://getcomposer.org/composer.phar \
-#    && chmod +x /usr/bin/phpunit /usr/bin/phpcs /usr/bin/composer /usr/bin/phpdoc
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini
 
 # Clean image
 RUN apt-get autoremove -yq --purge \
     && apt-get clean \
     && apt-get -f install \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* /tmp/* /var/tmp/*
-
-# Install composer
-#RUN curl -sS https://getcomposer.org/installer | php -- --quiet --install-dir=/usr/bin/ && mv /usr/bin/composer.phar /usr/bin/composer
 
 # Add configuration
 ADD . /container
