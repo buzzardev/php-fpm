@@ -11,6 +11,14 @@ RUN docker-php-ext-install pdo_mysql
 # Add timezone
 RUN echo "date.timezone=Europe/Brussels" > /usr/local/etc/php/conf.d/timezone.ini
 
+# Install PHP-AST
+RUN git clone -q https://github.com/nikic/php-ast.git \
+        && cd php-ast \
+        && phpize \
+        && ./configure \
+        && make install \
+        && echo "extension=$(find "$(pwd)" -not -path '*/.*/*' -name "ast.so")" > /usr/local/etc/php/conf.d/ast.ini
+
 # Install Composer
 RUN wget https://composer.github.io/installer.sig -O - -q | tr -d '\n' > installer.sig \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
