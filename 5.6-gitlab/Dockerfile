@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt-get install -y git curl wget zip unzip zlib1g-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo_mysql zip
 
 # Add timezone
 RUN echo "date.timezone=Europe/Brussels" > /usr/local/etc/php/conf.d/timezone.ini
